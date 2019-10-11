@@ -1,0 +1,83 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+1. In an Introduction, describe your motivation for choosing the general topic of your portfolio.
+
+Introduction:
+
+The topic for my portfolio project is education.  I would like to do some analysis on the changes in education over time with my project.  I decided to choose this area to study because education is a very important aspect of every person's life.  It is an area that changes quite frequently and I would like to study some of those changes and how they affect students and teachers.  One area that I am interesting in studying in relation to education is how political policies have effected education and student achievement.
+
+Data:
+
+The first thing I will do is import the first data set that I will be using in my study. To do that I need to install/load some R libraries and then I will read the data into a table.
+
+```{r}
+install.packages("tidyverse")
+library("tidyverse")
+library("dplyr")
+library("tidyr")
+
+education_attainment <- read_csv("./Education.csv")
+```
+
+The data I found gives information on the educational attainment by state and county in the United States. I found this data on the USDA (United States Department of Agriculture) Economic Research Service website. Although it seems odd to find education data on the Department of Agriculture, the website had quite a variety of data available.  Since it is a .gov website the data should be reliable for us to use.  
+
+I have used colnames to print out all of the column names in the data. And I am using typeof() to see the type of each of the different columns.
+
+```{r}
+colnames(education_attainment)
+typeof("FIPS Code")
+typeof("State")
+typeof("Area name")
+typeof("2003 Rural-urban Continuum Code")
+typeof("2003 Urban Influence Code")
+typeof("2013 Rural-urban Continuum Code")
+typeof("2013 Urban Influence Code")
+typeof("Less than a high school diploma, 1970" )
+typeof("High school diploma only, 1970")
+typeof("Some college (1-3 years), 1970")
+typeof("Four years of college or higher, 1970")
+typeof("Percent of adults with less than a high school diploma, 1970")
+typeof("Percent of adults with a high school diploma only, 1970")
+typeof("Percent of adults completing some college (1-3 years), 1970")
+typeof("Percent of adults completing four years of college or higher, 1970")
+```
+
+A brief description of the columns in the data:
+ - FIPS Code: The 5 digit Federal Information Processing Standards  code that uniquely identifies counties in the United States. 
+ - State: The name of the state where that county is located
+ - Area Name: The name of the area where the county is located
+ - 2003 Rural-urban Continuum Code: 2003 classification scheme that distinguishes metropolitan counties by the population size of their metro area, and nonmetropolitan counties by degree of urbanization and adjacency to a metro area
+ - 2003 Urban Influence Code: 2003 classification scheme that distinguishes metropolitan counties by population size of their metro area, and nonmetropolitan counties by size of the largest city or town and proximity to metro and micropolitan areas
+ - 2013 Rural-urban Continuum Code: 2013 classification scheme that distinguishes metropolitan counties by the population size of their metro area, and nonmetropolitan counties by degree of urbanization and adjacency to a metro area
+ - 2013 Urban Influence Code: 2013 classification scheme that distinguishes metropolitan counties by population size of their metro area, and nonmetropolitan counties by size of the largest city or town and proximity to metro and micropolitan areas
+ - Less than a high school diploma, 1970: Number of people with less than a high school diploma in 1970
+ - High school diploma only, 1970: Number of people with a high school diploma in 1970
+ - Some college (1-3 years), 1970: Number of people with some college completed in 1970
+ - Four years of college or higher, 1970: Number of people with four years or more of college completed in 1970
+ - Percent of adults with less than a high school diploma, 1970: Percent of people with less than a high school diploma in 1970
+ - Percent of adults with a high school diploma only, 1970: Percent of people with a high school diploma in 1970
+ - Percent of adults completing some college (1-3 years), 1970: Percent of people with some college completed in 1970
+ - Percent of adults completing four years of college or higher, 1970: Percent of people with four years or more of college completed in 1970
+ *** The above 8 columns repeat for the years 1980, 1990, 2000, 2013-2017 ***                      
+
+Each column is being stored as a character so that will need to be updated when we clean the data. 
+
+Cleaning the data:
+
+The next step is to clean the data so that it can be more easily used.
+
+First I will clean up the column names so that they are more readable.
+
+```{r}
+
+```
+
+5. Document any manipulations you make to clean your data and organize it as Tidy Data as best you can prepare it for data analysis and modeling
+6. Summarize your data using descriptive statistics, along with visualizations (with accompanying interpretations) that help explore what possible insights you might investigate.
+7. Finally, describe what research questions you hope to explore in later phases, along with potential social & ethical implications of your work. For help identifying and phrasing research questions, see How to Write a Research Question
+
+
+
