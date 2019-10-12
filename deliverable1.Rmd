@@ -3,6 +3,7 @@ title: "R Notebook"
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 # Introduction:
@@ -271,6 +272,3 @@ What is the most signifigant economical effect caused by the increase in people 
 What action can local government take to improve the education system for the employees?
 
 How has education employment changed over time and are those changes related to the changes in education achievement?
-
-
-
