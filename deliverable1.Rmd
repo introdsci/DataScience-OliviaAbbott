@@ -7,7 +7,7 @@ output:
 
 # Introduction:
 
-The topic for my portfolio project is education.  I would like to do some analysis on the changes in education over time with my project.  I decided to choose this area to study because education is a very important aspect of every person's life.  It is an area that changes quite frequently and I would like to study some of those changes and how they affect students and teachers.  One area that I am interesting in studying in relation to education is how political policies have effected education and student achievement.
+The topic for my portfolio project is education.  I would like to do some analysis on the changes in education over time with my project.  I decided to choose this area to study because education is a very important aspect of every person's life.  It is an area that changes quite frequently and I would like to study some of those changes and how they affect students and teachers.  One area that I am interesting in studying in relation to education is how political policies have effected education and student achievement. 
 
 # Data:
 
