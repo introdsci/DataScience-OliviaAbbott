@@ -24,29 +24,17 @@ education_attainment <- read_csv("./Education.csv")
 
 The data I found gives information on the educational attainment by state and county in the United States. I found this data on the USDA (United States Department of Agriculture) Economic Research Service website. Although it seems odd to find education data on the Department of Agriculture, the website had quite a variety of data available.  Since it is a .gov website the data should be reliable for us to use.  
 
-I have used colnames to print out all of the column names in the data. And I am using typeof() to see the type of each of the different columns.
+I have used colnames to print out all of the column names in the data. And I am using typeof() and mode() to see the type of each of the different columns. The sapply() function just applies the function (the second argument) to the entire table (the first argument).
 
 ```{r}
 colnames(education_attainment)
-typeof("FIPS Code")
-typeof("State")
-typeof("Area name")
-typeof("2003 Rural-urban Continuum Code")
-typeof("2003 Urban Influence Code")
-typeof("2013 Rural-urban Continuum Code")
-typeof("2013 Urban Influence Code")
-typeof("Less than a high school diploma, 1970" )
-typeof("High school diploma only, 1970")
-typeof("Some college (1-3 years), 1970")
-typeof("Four years of college or higher, 1970")
-typeof("Percent of adults with less than a high school diploma, 1970")
-typeof("Percent of adults with a high school diploma only, 1970")
-typeof("Percent of adults completing some college (1-3 years), 1970")
-typeof("Percent of adults completing four years of college or higher, 1970")
+
+sapply(education_attainment, typeof)
+sapply(education_attainment, mode) 
 ```
 
 A brief description of the columns in the data:
- - FIPS Code: The 5 digit Federal Information Processing Standards  code that uniquely identifies counties in the United States. 
+ - FIPS Code: The 5 digit Federal Information Processing Standards  code that uniquely identifies counties in the United States.
  - State: The name of the state where that county is located
  - Area Name: The name of the area where the county is located
  - 2003 Rural-urban Continuum Code: 2003 classification scheme that distinguishes metropolitan counties by the population size of their metro area, and nonmetropolitan counties by degree of urbanization and adjacency to a metro area
@@ -63,16 +51,126 @@ A brief description of the columns in the data:
  - Percent of adults completing four years of college or higher, 1970: Percent of people with four years or more of college completed in 1970
  *** The above 8 columns repeat for the years 1980, 1990, 2000, 2013-2017 ***                      
 
-Each column is being stored as a character so that will need to be updated when we clean the data. 
-
+FIPS Code, State, and Area name are being stored in our table as characters.  The rest of the columns are being stored as numbers (specifically doubles).
 Cleaning the data:
 
 The next step is to clean the data so that it can be more easily used.
 
-First I will clean up the column names so that they are more readable.
+The column names the the educational_attainment table is long and incosistant. So first I will clean up the column names so that they are more readable and are consistant.
 
 ```{r}
+colnames(education_attainment)[colnames(education_attainment) == "FIPS Code"] <- "FIPS_Code"
+colnames(education_attainment)[colnames(education_attainment) == "Area name"] <- "Area_Name"
+colnames(education_attainment)[colnames(education_attainment) == "2003 Rural-urban Continuum Code"] <- "2003_Rural_Urban_Continuum_Code"
+colnames(education_attainment)[colnames(education_attainment) == "2003 Urban Influence Code"] <- "2003_Urban_Influence_Code"
+colnames(education_attainment)[colnames(education_attainment) == "2013 Rural-urban Continuum Code"] <- "2013_Rural_Urban_Continuum_Code"
+colnames(education_attainment)[colnames(education_attainment) == "2013 Urban Influence Code"] <- "2013_Urban_Influence_Code"
 
+colnames(education_attainment)[colnames(education_attainment) == "Less than a high school diploma, 1970"] <- "1970_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "High school diploma only, 1970"] <- "1970_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Some college (1-3 years), 1970"] <- "1970_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Four years of college or higher, 1970"] <- "1970_Bachelor_Degree_Or_Higher"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with less than a high school diploma, 1970"] <- "1970_Percent_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with a high school diploma only, 1970"] <- "1970_Percent_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults completing some college (1-3 years), 1970"] <- "1970_Percent_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults completing four years of college or higher, 1970"] <- "1970_Percent_Bachelor_Degree_Or_Higher"
+
+colnames(education_attainment)[colnames(education_attainment) == "Less than a high school diploma, 1980"] <- "1980_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "High school diploma only, 1980"] <- "1980_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Some college (1-3 years), 1980"] <- "1980_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Four years of college or higher, 1980"] <- "1980_Bachelor_Degree_Or_Higher"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with less than a high school diploma, 1980"] <- "1980_Percent_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with a high school diploma only, 1980"] <- "1980_Percent_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults completing some college (1-3 years), 1980"] <- "1980_Percent_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults completing four years of college or higher, 1980"] <- "1980_Percent_Bachelor_Degree_Or_Higher"
+
+colnames(education_attainment)[colnames(education_attainment) == "Less than a high school diploma, 1990"] <- "1990_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "High school diploma only, 1990"] <- "1990_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Some college or associate's degree, 1990"] <- "1990_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Bachelor's degree or higher, 1990"] <- "1990_Bachelor_Degree_Or_Higher"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with less than a high school diploma, 1990"] <- "1990_Percent_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with a high school diploma only, 1990"] <- "1990_Percent_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults completing some college or associate's degree, 1990"] <- "1990_Percent_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with a bachelor's degree or higher, 1990"] <- "1990_Percent_Bachelor_Degree_Or_Higher"
+
+colnames(education_attainment)[colnames(education_attainment) == "Less than a high school diploma, 2000"] <- "2000_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "High school diploma only, 2000"] <- "2000_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Some college or associate's degree, 2000"] <- "2000_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Bachelor's degree or higher, 2000"] <- "2000_Bachelor_Degree_Or_Higher"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with less than a high school diploma, 2000"] <- "2000_Percent_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with a high school diploma only, 2000"] <- "2000_Percent_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults completing some college or associate's degree, 2000"] <- "2000_Percent_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with a bachelor's degree or higher, 2000"] <- "2000_Percent_Bachelor_Degree_Or_Higher"
+
+colnames(education_attainment)[colnames(education_attainment) == "Less than a high school diploma, 2013-17"] <- "2013-17_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "High school diploma only, 2013-17"] <- "2013-17_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Some college or associate's degree, 2013-17"] <- "2013-17_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Bachelor's degree or higher, 2013-17"] <- "2013-17_Bachelor_Degree_Or_Higher"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with less than a high school diploma, 2013-17"] <- "2013-17_Percent_Less_Than_High_School_Diploma"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with a high school diploma only, 2013-17"] <- "2013-17_Percent_High_School_Diploma_Only"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults completing some college or associate's degree, 2013-17"] <- "2013-17_Percent_Some_College"
+colnames(education_attainment)[colnames(education_attainment) == "Percent of adults with a bachelor's degree or higher, 2013-17"] <- "2013-17_Percent_Bachelor_Degree_Or_Higher"
+```
+
+The next step to clean the data is to remove the last column in the table since it is not holding any data. When importing the data into R an extra column was read in even though it has no data so we can just get rid of that extra column.
+
+```{r}
+education_attainment$X48 <- NULL
+```
+
+Next I am going to split the data in education_attainmnet into two different tables.  I want to have the location data in a different table from the education attainment data. I am going to create a new table called location using the tibble() function and I will put all of the location data into that table. And I will create a table called education using the same function to hold only the education data.
+
+```{r}
+location <- tibble("FIPS_Code" = education_attainment$FIPS_Code, "State" = education_attainment$State, "Area_Name" = education_attainment$Area_Name, "2003_Rural_Urban_Continuum_Code" = education_attainment$`2003_Rural_Urban_Continuum_Code`,  "2003_Urban_Influence_Code" = education_attainment$`2003_Urban_Influence_Code`, "2013_Rural_Urban_Continuum_Code" = education_attainment$`2013_Rural_Urban_Continuum_Code`, "2013_Urban_Influence_Code" = education_attainment$`2013_Urban_Influence_Code`)
+
+education <- tibble("FIPS_Code" = education_attainment$FIPS_Code, "1970_Less_Than_High_School_Diploma" = education_attainment$`1970_Less_Than_High_School_Diploma`, "1970_High_School_Diploma_Only" = education_attainment$`1970_High_School_Diploma_Only`, "1970_Some_College" = education_attainment$`1970_Some_College`, "1970_Bachelor_Degree_Or_Higher" = education_attainment$`1970_Bachelor_Degree_Or_Higher`, "1970_Percent_Less_Than_High_School_Diploma" = education_attainment$`1970_Percent_Less_Than_High_School_Diploma`, "1970_Percent_High_School_Diploma_Only" = education_attainment$`1970_Percent_High_School_Diploma_Only`, "1970_Percent_Some_College" = education_attainment$`1970_Percent_Some_College`, "1970_Percent_Bachelor_Degree_Or_Higher" = education_attainment$`1980_Percent_Bachelor_Degree_Or_Higher`, "1980_Less_Than_High_School_Diploma" = education_attainment$`1980_Less_Than_High_School_Diploma`, "1980_High_School_Diploma_Only" = education_attainment$`1980_High_School_Diploma_Only`, "1980_Some_College" = education_attainment$`1980_Some_College`, "1980_Bachelor_Degree_Or_Higher" = education_attainment$`1980_Bachelor_Degree_Or_Higher`, "1980_Percent_Less_Than_High_School_Diploma" = education_attainment$`1980_Percent_Less_Than_High_School_Diploma`, "1980_Percent_High_School_Diploma_Only" = education_attainment$`1980_Percent_High_School_Diploma_Only`, "1980_Percent_Some_College" = education_attainment$`1980_Percent_Some_College`, "1980_Percent_Bachelor_Degree_Or_Higher" = education_attainment$`1980_Percent_Bachelor_Degree_Or_Higher`, "1990_Less_Than_High_School_Diploma" = education_attainment$`1990_Less_Than_High_School_Diploma`, "1990_High_School_Diploma_Only" = education_attainment$`1990_High_School_Diploma_Only`, "1990_Some_College" = education_attainment$`1990_Some_College`, "1990_Bachelor_Degree_Or_Higher" = education_attainment$`1990_Bachelor_Degree_Or_Higher`, "1990_Percent_Less_Than_High_School_Diploma" = education_attainment$`1990_Percent_Less_Than_High_School_Diploma`, "1990_Percent_High_School_Diploma_Only" = education_attainment$`1990_Percent_High_School_Diploma_Only`, "1990_Percent_Some_College" = education_attainment$`1990_Percent_Some_College`, "1990_Percent_Bachelor_Degree_Or_Higher" = education_attainment$`1990_Percent_Bachelor_Degree_Or_Higher`, "2000_Less_Than_High_School_Diploma" = education_attainment$`2000_Less_Than_High_School_Diploma`, "2000_High_School_Diploma_Only" = education_attainment$`2000_High_School_Diploma_Only`, "2000_Some_College" = education_attainment$`2000_Some_College`, "2000_Bachelor_Degree_Or_Higher" = education_attainment$`2000_Bachelor_Degree_Or_Higher`, "2000_Percent_Less_Than_High_School_Diploma" = education_attainment$`2000_Percent_Less_Than_High_School_Diploma`, "2000_Percent_High_School_Diploma_Only" = education_attainment$`2000_Percent_High_School_Diploma_Only`, "2000_Percent_Some_College" = education_attainment$`2000_Percent_Some_College`, "2000_Percent_Bachelor_Degree_Or_Higher" = education_attainment$`2000_Percent_Bachelor_Degree_Or_Higher`, "2013-17_Less_Than_High_School_Diploma" = education_attainment$`2013-17_Less_Than_High_School_Diploma`, "2013-17_High_School_Diploma_Only" = education_attainment$`2013-17_High_School_Diploma_Only`, "2013-17_Some_College" = education_attainment$`2013-17_Some_College`, "2013-17_Bachelor_Degree_Or_Higher" = education_attainment$`2013-17_Bachelor_Degree_Or_Higher`, "2013-17_Percent_Less_Than_High_School_Diploma" = education_attainment$`2013-17_Percent_Less_Than_High_School_Diploma`, "2013-17_Percent_High_School_Diploma_Only" = education_attainment$`2013-17_Percent_High_School_Diploma_Only`, "2013-17_Percent_Some_College" = education_attainment$`2013-17_Percent_Some_College`, "2013-17_Percent_Bachelor_Degree_Or_Higher" = education_attainment$`2013-17_Percent_Bachelor_Degree_Or_Higher`)
+```
+
+The next step to cleaning the data is to change some of the columns in the education table that are being represented as doubles to integers.  We want the columns holding the percent values to be doubles, however the columns not holding percent values can be integers.
+
+```{r}
+education$`1970_Less_Than_High_School_Diploma` <- type.convert(education$`1970_Less_Than_High_School_Diploma`)
+education$`1970_High_School_Diploma_Only` <- type.convert(education$`1970_High_School_Diploma_Only`)
+education$`1970_Some_College` <- type.convert(education$`1970_Some_College`)
+education$`1970_Bachelor_Degree_Or_Higher` <- type.convert(education$`1970_Bachelor_Degree_Or_Higher`)
+education$`1980_Less_Than_High_School_Diploma` <- type.convert(education$`1980_Less_Than_High_School_Diploma`)
+education$`1980_High_School_Diploma_Only` <- type.convert(education$`1980_High_School_Diploma_Only`)
+education$`1980_Some_College` <- type.convert(education$`1980_Some_College`)
+education$`1980_Bachelor_Degree_Or_Higher` <- type.convert(education$`1980_Bachelor_Degree_Or_Higher`)
+education$`1990_Less_Than_High_School_Diploma` <- type.convert(education$`1990_Less_Than_High_School_Diploma`)
+education$`1990_High_School_Diploma_Only` <- type.convert(education$`1990_High_School_Diploma_Only`)
+education$`1990_Some_College` <- type.convert(education$`1990_Some_College`)
+education$`1990_Bachelor_Degree_Or_Higher` <- type.convert(education$`1990_Bachelor_Degree_Or_Higher`)
+education$`2000_Less_Than_High_School_Diploma` <- type.convert(education$`2000_Less_Than_High_School_Diploma`)
+education$`2000_High_School_Diploma_Only` <- type.convert(education$`2000_High_School_Diploma_Only`)
+education$`2000_Some_College` <- type.convert(education$`2000_Some_College`)
+education$`2000_Bachelor_Degree_Or_Higher` <- type.convert(education$`2000_Bachelor_Degree_Or_Higher`)
+education$`2013-17_Less_Than_High_School_Diploma` <- type.convert(education$`2013-17_Less_Than_High_School_Diploma`)
+education$`2013-17_High_School_Diploma_Only` <- type.convert(education$`2013-17_High_School_Diploma_Only`)
+education$`2013-17_Some_College` <- type.convert(education$`2013-17_Some_College`)
+education$`2013-17_Bachelor_Degree_Or_Higher` <- type.convert(education$`2013-17_Bachelor_Degree_Or_Higher`)
+sapply(education, typeof)
+```
+
+
+I am also going to update any columns that should be represented as categories by making them categorical using the as.factor() funtion.
+
+```{r}
+location$State <- as.factor(location$State)
+levels(location$State)
+
+location$`2003_Rural_Urban_Continuum_Code` <- as.factor(location$`2003_Rural_Urban_Continuum_Code`)
+levels(location$`2003_Rural_Urban_Continuum_Code`)
+
+location$`2003_Urban_Influence_Code` <- as.factor(location$`2003_Urban_Influence_Code`)
+levels(location$`2003_Urban_Influence_Code`)
+typeof
+
+location$`2013_Rural_Urban_Continuum_Code` <- as.factor(location$`2013_Rural_Urban_Continuum_Code`)
+levels(location$`2013_Rural_Urban_Continuum_Code`)
+
+location$`2013_Urban_Influence_Code` <- as.factor(location$`2013_Urban_Influence_Code`)
+levels(location$`2013_Urban_Influence_Code`)
 ```
 
 5. Document any manipulations you make to clean your data and organize it as Tidy Data as best you can prepare it for data analysis and modeling
