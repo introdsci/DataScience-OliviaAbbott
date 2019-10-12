@@ -1,6 +1,6 @@
 ---
-title: " " #replace the title with something short and catchy to represent your project
-subtitle: "____'s Data Science Portfolio" #replace blank with your name
+title: "Factors on Educational Achievement"
+subtitle: "Olivia Abbott's Data Science Portfolio" #replace blank with your name
 output:
   html_document:
     df_print: paged
@@ -8,11 +8,14 @@ output:
 
 ## Abstract
 
-In under 250 words give a brief summary of the project so far.
+The study I am working on is education. So far I have dowloaded data on educational achievement over time that give data on how much education people have achieved by county in the United States.  There are 4 categories of educational achievement: less than a high school diploma, high school diploma only, some college, and bachelor degree or higher. The data has been cleaned and some early visualizations have been created to help understand the data.
 
 ### 1. Discovery and Data Preparation
 
-Provide a one-sentence introduction with what is covered by the first deliverable along with a link to another html page that gives the details.
+The first section of the project covers the data importation and cleaning, analysis, and visualizations to help me understand the data.
+
+[Link](deliverable1.nb.html) to phase 1 of the Portfolio.
+
 
 ### 2. Model Planning and Building
 
