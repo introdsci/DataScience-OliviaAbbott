@@ -35,21 +35,37 @@ colnames(education_attainment)
 ```
 
 A brief description of the columns in the data:
+
  - FIPS Code: The 5 digit Federal Information Processing Standards  code that uniquely identifies counties in the United States.
+ 
  - State: The name of the state where that county is located
+ 
  - Area Name: The name of the area where the county is located
+ 
  - 2003 Rural-urban Continuum Code: 2003 classification scheme that distinguishes metropolitan counties by the population size of their metro area, and nonmetropolitan counties by degree of urbanization and adjacency to a metro area
+ 
  - 2003 Urban Influence Code: 2003 classification scheme that distinguishes metropolitan counties by population size of their metro area, and nonmetropolitan counties by size of the largest city or town and proximity to metro and micropolitan areas
+ 
  - 2013 Rural-urban Continuum Code: 2013 classification scheme that distinguishes metropolitan counties by the population size of their metro area, and nonmetropolitan counties by degree of urbanization and adjacency to a metro area
+ 
  - 2013 Urban Influence Code: 2013 classification scheme that distinguishes metropolitan counties by population size of their metro area, and nonmetropolitan counties by size of the largest city or town and proximity to metro and micropolitan areas
+ 
  - Less than a high school diploma, 1970: Number of people with less than a high school diploma in 1970
+ 
  - High school diploma only, 1970: Number of people with a high school diploma in 1970
+ 
  - Some college (1-3 years), 1970: Number of people with some college completed in 1970
+ 
  - Four years of college or higher, 1970: Number of people with four years or more of college completed in 1970
+ 
  - Percent of adults with less than a high school diploma, 1970: Percent of people with less than a high school diploma in 1970
+ 
  - Percent of adults with a high school diploma only, 1970: Percent of people with a high school diploma in 1970
+ 
  - Percent of adults completing some college (1-3 years), 1970: Percent of people with some college completed in 1970
+ 
  - Percent of adults completing four years of college or higher, 1970: Percent of people with four years or more of college completed in 1970
+ 
  *** The above 8 columns repeat for the years 1980, 1990, 2000, 2013-2017 ***                      
 
 FIPS Code, State, and Area name are being stored in our table as characters.  The rest of the columns are being stored as numbers (specifically doubles).
