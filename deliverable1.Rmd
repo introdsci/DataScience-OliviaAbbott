@@ -5,8 +5,6 @@ output:
     df_print: paged
 ---
 
-1. In an Introduction, describe your motivation for choosing the general topic of your portfolio.
-
 # Introduction:
 
 The topic for my portfolio project is education.  I would like to do some analysis on the changes in education over time with my project.  I decided to choose this area to study because education is a very important aspect of every person's life.  It is an area that changes quite frequently and I would like to study some of those changes and how they affect students and teachers.  One area that I am interesting in studying in relation to education is how political policies have effected education and student achievement.
@@ -17,9 +15,9 @@ The first thing I will do is import the first data set that I will be using in m
 
 ```{r}
 #install.packages("tidyverse")
-library("tidyverse")
-library("dplyr")
-library("tidyr")
+suppressMessages(library("tidyverse"))
+suppressMessages(library("dplyr"))
+suppressMessages(library("tidyr"))
 
 suppressMessages(education_attainment <- read_csv("./Education.csv"))
 
@@ -27,11 +25,12 @@ suppressMessages(education_attainment <- read_csv("./Education.csv"))
 
 The data I found gives information on the educational attainment by state and county in the United States. I found this data on the USDA (United States Department of Agriculture) Economic Research Service website. Although it seems odd to find education data on the Department of Agriculture, the website had quite a variety of data available.  Since it is a .gov website the data should be reliable for us to use.  
 
-I have used colnames to print out all of the column names in the data. And I am using typeof() and mode() to see the type of each of the different columns. The sapply() function just applies the function (the second argument) to the entire table (the first argument).
+I have used colnames to print out all of the column names in the data. And I am using typeof() and mode() to see the type of each of the different columns. I use the sapply() function to applies the function (the second argument) to the entire table (the first argument). I am not going to show the results of sapply functions because the results are so long.
 
 ```{r}
-suppressMessages(sapply(education_attainment, typeof))
-suppressMessages(sapply(education_attainment, mode))
+colnames(education_attainment)
+#sapply(education_attainment, typeof)
+#sapply(education_attainment, mode)
 ```
 
 A brief description of the columns in the data:
@@ -258,10 +257,8 @@ title ="Average number of student in 2000 with some college completed")
 ggplot(education, aes(State, mean(`2013-17_Bachelor_Degree_Or_Higher`, na.rm = TRUE))) + geom_col() + labs( x = "State", y = "Average Number of Students",
 title ="Average number of student in 2013-17 with a bachelor degree or higher") 
 ```
-I think that the limitation to these graphs is that the average number of people is dependent on the population in that state. So you should not compare the states to each to each other people each of the states total population is different.
 
-6. Summarize your data using descriptive statistics, along with visualizations (with accompanying interpretations) that help explore what possible insights you might investigate.
-7. Finally, describe what research questions you hope to explore in later phases, along with potential social & ethical implications of your work. For help identifying and phrasing research questions, see How to Write a Research Question
+I think that the limitation to these graphs is that the average number of people is dependent on the population in that state. So you should not compare the states to each to each other people each of the states total population is different.
 
 # Research Questions
 
