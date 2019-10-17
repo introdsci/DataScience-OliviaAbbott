@@ -1661,7 +1661,7 @@ suppressMessages(library(&quot;tidyverse&quot;))
 suppressMessages(library(&quot;dplyr&quot;))
 suppressMessages(library(&quot;tidyr&quot;))
 
-suppressMessages(education_attainment &lt;- read_csv(&quot;./Education.csv&quot;))</code></pre>
+suppressMessages(education_attainment &lt;- read_csv(&quot;https://raw.githubusercontent.com/introdsci/DataScience-OliviaAbbott/master/Education.csv&quot;))</code></pre>
 <pre><code>## Warning: Missing column names filled in: 'X48' [48]</code></pre>
 <p>The data I found gives information on the educational attainment by state and county in the United States. I found this data on the USDA (United States Department of Agriculture) Economic Research Service website. Although it seems odd to find education data on the Department of Agriculture, the website had quite a variety of data available. Since it is a .gov website the data should be reliable for us to use.</p>
 <p>I have used colnames to print out all of the column names in the data. And I am using typeof() and mode() to see the type of each of the different columns. I use the sapply() function to applies the function (the second argument) to the entire table (the first argument). I am not going to show the results of sapply functions because the results are so long.</p>

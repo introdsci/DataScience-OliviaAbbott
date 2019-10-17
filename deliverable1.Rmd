@@ -20,7 +20,7 @@ suppressMessages(library("tidyverse"))
 suppressMessages(library("dplyr"))
 suppressMessages(library("tidyr"))
 
-suppressMessages(education_attainment <- read_csv("./Education.csv"))
+suppressMessages(education_attainment <- read_csv("https://raw.githubusercontent.com/introdsci/DataScience-OliviaAbbott/master/Education.csv"))
 
 ```
 

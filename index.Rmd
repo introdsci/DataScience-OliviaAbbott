@@ -1,6 +1,6 @@
 ---
 title: "Factors on Educational Achievement"
-subtitle: "Olivia Abbott's Data Science Portfolio" #replace blank with your name
+subtitle: "Olivia Abbott's Data Science Portfolio"
 output:
   html_document:
     df_print: paged
@@ -14,7 +14,7 @@ The study I am working on is education. So far I have dowloaded data on educatio
 
 The first section of the project covers the data importation and cleaning, analysis, and visualizations to help me understand the data.
 
-[Link](deliverable1.nb.html) to phase 1 of the Portfolio. 
+[Link](deliverable1.html) to phase 1 of the Portfolio. 
 
 
 ### 2. Model Planning and Building
