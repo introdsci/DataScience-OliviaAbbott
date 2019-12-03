@@ -246,33 +246,44 @@ I have decided to graph the Levels that had the highest averages for each year. 
 
 ```{r}
 library("ggplot2")
+
 mean(education$`1970_Less_Than_High_School_Diploma`, na.rm = TRUE)
 
 
 ggplot(education, aes(State, mean(`1970_Less_Than_High_School_Diploma`, na.rm = TRUE))) + geom_col() + labs( x = "State", y = "Average Number of Students",
-title ="Average number of student in 1970 with less than a high school diploma") 
+title ="Average number of student in 1970 with less than a high school diploma") + 
+  theme(axis.text.x = element_text(size = 9, angle=90), axis.text.y = element_text(size=14))
 
 ggplot(education, aes(State, mean(`1980_High_School_Diploma_Only`, na.rm = TRUE))) + geom_col() + labs( x = "State", y = "Average Number of Students",
-title ="Average number of student in 1980 with a high school diploma only") 
+title ="Average number of student in 1980 with a high school diploma only") + 
+  theme(axis.text.x = element_text(size = 9, angle=90), axis.text.y = element_text(size=14))
 
 
 ggplot(education, aes(State, mean(`1980_Less_Than_High_School_Diploma`, na.rm = TRUE))) + geom_col() + labs( x = "State", y = "Average Number of Students",
-title ="Average number of student in 1980 less than a high school diploma") 
+title ="Average number of student in 1980 less than a high school diploma") + 
+  theme(axis.text.x = element_text(size = 9, angle=90), axis.text.y = element_text(size=14))
 
 
 ggplot(education, aes(State, mean(`1990_High_School_Diploma_Only`, na.rm = TRUE))) + geom_col() + labs( x = "State", y = "Average Number of Students",
-title ="Average number of student in 1990 with a high school diploma only") 
+title ="Average number of student in 1990 with a high school diploma only") + 
+  theme(axis.text.x = element_text(size = 9, angle=90), axis.text.y = element_text(size=14))
 
 
 ggplot(education, aes(State, mean(`2000_High_School_Diploma_Only`, na.rm = TRUE))) + geom_col() + labs( x = "State", y = "Average Number of Students",
-title ="Average number of student in 2000 with a high school diploma only") 
+title ="Average number of student in 2000 with a high school diploma only") + 
+  theme(axis.text.x = element_text(size = 9, angle=90), axis.text.y = element_text(size=14))
 
-ggplot(education, aes(State, mean(`2000_Some_College`, na.rm = TRUE))) + geom_col() + labs( x = "State", y = "Average Number of Students",
-title ="Average number of student in 2000 with some college completed") 
+ggplot(education, aes(State, mean(`2000_Some_College`, na.rm = TRUE))) + geom_col() + 
+  labs( x = "State", y = "Average Number of Students",
+  title ="Average number of student in 2000 with some college completed") + 
+  theme(axis.text.x = element_text(size = 9, angle=90), axis.text.y = element_text(size=14))
 
 
-ggplot(education, aes(State, mean(`2013-17_Bachelor_Degree_Or_Higher`, na.rm = TRUE))) + geom_col() + labs( x = "State", y = "Average Number of Students",
-title ="Average number of student in 2013-17 with a bachelor degree or higher") 
+ggplot(education, aes(State, mean(`2013-17_Bachelor_Degree_Or_Higher`, na.rm = TRUE))) + geom_col() + 
+  labs( x = "State", y = "Average Number of Students", 
+  title ="Average number of student in 2013-17 with a bachelor degree or higher") + 
+  theme(axis.text.x = element_text(size = 9, angle=90), axis.text.y = element_text(size=14)) + 
+  scale_y_continuous()
 ```
 
 I think that the limitation to these graphs is that the average number of people is dependent on the population in that state. So you should not compare the states to each to each other people each of the states total population is different.

@@ -19,7 +19,9 @@ The first section of the project covers the data importation and cleaning, analy
 
 ### 2. Model Planning and Building
 
-Coming soon...
+The second section of the project brings in teacher salary data to test the relationship between student achievement and teacher salaries.
+
+[Link](deliverable2.html) to phase 2 of the Portfolio.
 
 ### 3. Results and Operationalization
 
