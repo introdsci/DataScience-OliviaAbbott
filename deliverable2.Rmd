@@ -18,7 +18,11 @@ include("knitr")
 #purl("deliverable1.Rmd", output = "part1.r")
 source("part1.r")
 ```
+# Introduction:
+
 For the second part of this project we are going to bring in a second source of data.  This data comes from the National Center for Education Statistics.  This table has data on teacher salaries over the past 47 years.  I am going to use the data from phase 1 of the project to predict how teaching salaries have changed over time.  The data that I am bringing in has a column on the "Percent Change in Salaries from 1999-2000 to 2015-2016".  I would like to use the data on student achievement to predict how teaching salaries have changed over time.  I am curious if the increase or decrease of teacher salaries is in any way related to how successful students are and whether or not student success can predict whether the teaching salaries have increase or decreased over time.
+
+# Getting data:
 
 I am going to use several html functions to bring in the table data. The table data is read into values and values 2.  I will then split the data up by state to organize the data.
 ```{r}
@@ -87,6 +91,8 @@ Wisconsin <- values[868:882]
 Wyoming <- values2[16:30]
 ```
 
+# Cleaning the new data:
+
 After organizing the table data I will create a vector to hold the different categories. With that I will create a table to hold all of the data brought in from the website.
 ```{r}
 Categories <- c("Current_Dollars:1969-70",	"Current_Dollars:1979-80",	"Current_Dollars:1989-90",	"Current_Dollars:1999-2000",	"Current_Dollars:2009-10",	"Current_Dollars:2015-16",	"Current_Dollars:2016-17",	"Constant_2016-17_dollars:1969-70",	"Constant_2016-17_dollars:1979-80",	"Constant_2016-17_dollars:1989-90",	"Constant_2016-17_dollars:1999-2000",	"Constant_2016-17_dollars:2009-10",	"Constant_2016-17_dollars:2015-16",	"Constant_2016-17_dollars:2016-17",	"Percent_change_1999-2000_to_2016-17")
@@ -148,6 +154,7 @@ sapply(education_sum_numbers, typeof)
 sapply(education_sum_numbers, is.factor)
 ```
 
+# Creating the Model:
 
 In this section I am going to create a model using the table that I created above to predict the Percent Change in Salary using the number of graduates data from deliverable1. I have created a graph to show the percent change by state to make the model understandable.  First the data needs to be split into a training set and a test set. After that, the train data can be used to train the model.
 ```{r}
@@ -167,6 +174,8 @@ train_model <- lm(train, formula =  `Percent_change_1999-2000_to_2016-17` ~ `197
 
 summary(train_model)
 ```
+# Summary:
+
 From the results of the summary of the model we can see the the overall p-value of the model is 0.3614.  This p-value shows that the number of graduates data is not a very good predictor of the percent change in salary. The p-value is the probability that there is a correlation between the variables by chance.  Typically having a p-value of ~ 5% is ideal.  Therefore having the p value of 0.3614 shows that this is not the best model. This could show that the number of graduates data does not relate very well how teaching salaries have changed over time.
 
 Now I will use the test data to test the model.

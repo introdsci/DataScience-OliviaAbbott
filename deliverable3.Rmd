@@ -4,6 +4,9 @@ output:
   html_document:
     df_print: paged
 ---
+
+# Introduction:
+
 This phase of the project is focused on reviewing and improving on the previous phases in the project.  In deliverable 2, I used teaching salaries data to create a model.  I specifically used the "percent change in salaries" data in my model.
 That model was not very successful, so in this deliverable I want to try to use some of the other data in the salaries dataset to try to create a better model.
 
@@ -29,6 +32,7 @@ For reference, here is a print out of the data that we are working with. I have 
 print(education_numbers)
 print(salaries)
 ```
+# Creating two new Models:
 
 For this model I am going to use the salary information and the number of graduates information.  I am going to create a model using the salary data using the time period's current dollar and then also using the constant 2016-17 dollar.
 I want to see if one works better than the other since one model will account for inflation and the other will not account for any inflation.
@@ -76,12 +80,14 @@ RMSE(prediction_constant_dollars, test$`2013-17_High_School_Diploma_Only`)
 
 ggplot(test, aes(x = prediction_constant_dollars, y = `2013-17_High_School_Diploma_Only`)) + geom_point() + scale_x_continuous(name="Prediction using Constant Dollars", labels = scales::comma) + scale_y_continuous(name="Number of High School Graduates only 2013-2017", labels = scales::comma)
 ```
+#  Model Summaries:
 
 These two models have very similar results.  Both models have a very low overall p-value.  This shows that the models are good; however when you look at the p-value for the different coefficients, only 2013-17_Less_Than_High_School_Diploma, 2000_High_School_Diploma_Only, 2000_Less_Than_High_School_Diploma, and 1990_Less_Than_High_School_Diploma are the only coefficients with low p-values.
 What this shows is that although these are good models, it is mainly because of those coefficient which is not what I was trying to do with this model.  
 The reason that I included those variables in my models was because I wanted to include the data for both the change in salary as well as the data for the change in number of students at the different levels.  I thought that this would be necessary for the models.  I think that if I only included the salary data in these models and removed the number of students data, then the model would not have a very low overall p-value.
 For this model, I used the k-fold cross-validation technique which randomly splits the data set into k-subsets, it then reserves one subset and trains the model on all other subsets. From there it tests the model on the reserved subset and record the prediction error. It repeat this process until each of the k subsets has served as the test set. By doing this the model is able to compute the average of the k recorded errors.
 
+# Final Thoughts
 
 For this project, I do not think that I was able to find a great model for some of the initial research questions that I had.  I think that there is a correlation between teacher salaries and student achievement, however I do not think that it necessarily implies that there is any causation between the two variables. The first step in operationalizing this project would be to get more data and create more models.  I think that the topic of education is particularly difficult because it is difficult to find education data.
 Once more data has been found and used to create models, then I think more direct action could be taken. I do think that when taking any action regarding education, especially through government policy, you would have to be very careful of the negative consequenses. 
