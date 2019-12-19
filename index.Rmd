@@ -27,5 +27,5 @@ The second section of the project brings in teacher salary data to test the rela
 
 The last section of the project focuses on revising the previous sections of the project as well as creating some new models. It also sums up the project so far and expains some of the next steps for this project.
 
-[Link](deliverable3.Rmd) to phase 3 of the Portfolio.
+[Link](deliverable3.html) to phase 3 of the Portfolio.
 
