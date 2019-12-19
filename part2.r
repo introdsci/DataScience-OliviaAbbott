@@ -1,11 +1,4 @@
----
-title: "R Notebook"
-output:
-  html_document:
-    df_print: paged
----
-
-```{r, results='hide', message=FALSE}
+## ---- results='hide', message=FALSE-------------------------------------------
 include <- function(library_name){
   if( !(library_name %in% installed.packages()) )
     install.packages(library_name) 
@@ -17,11 +10,9 @@ include("tidyr")
 include("knitr")
 #purl("deliverable1.Rmd", output = "part1.r")
 source("part1.r")
-```
-For the second part of this project we are going to bring in a second source of data.  This data comes from the National Center for Education Statistics.  This table has data on teacher salaries over the past 47 years.  I am going to use the data from phase 1 of the project to predict how teaching salaries have changed over time.  The data that I am bringing in has a column on the "Percent Change in Salaries from 1999-2000 to 2015-2016".  I would like to use the data on student achievement to predict how teaching salaries have changed over time.  I am curious if the increase or decrease of teacher salaries is in any way related to how successful students are and whether or not student success can predict whether the teaching salaries have increase or decreased over time.
 
-I am going to use several html functions to bring in the table data. The table data is read into values and values 2.  I will then split the data up by state to organize the data.
-```{r}
+
+## -----------------------------------------------------------------------------
 html <- read_html("https://nces.ed.gov/programs/digest/d17/tables/dt17_211.60.asp")
 
 values <- html %>% 
@@ -85,46 +76,36 @@ Washington <- values[838:852]
 West_Virginia <- values[853:867]
 Wisconsin <- values[868:882]
 Wyoming <- values2[16:30]
-```
 
-After organizing the table data I will create a vector to hold the different categories. With that I will create a table to hold all of the data brought in from the website.
-```{r}
+
+## -----------------------------------------------------------------------------
 Categories <- c("Current_Dollars:1969-70",	"Current_Dollars:1979-80",	"Current_Dollars:1989-90",	"Current_Dollars:1999-2000",	"Current_Dollars:2009-10",	"Current_Dollars:2015-16",	"Current_Dollars:2016-17",	"Constant_2016-17_dollars:1969-70",	"Constant_2016-17_dollars:1979-80",	"Constant_2016-17_dollars:1989-90",	"Constant_2016-17_dollars:1999-2000",	"Constant_2016-17_dollars:2009-10",	"Constant_2016-17_dollars:2015-16",	"Constant_2016-17_dollars:2016-17",	"Percent_change_1999-2000_to_2016-17")
 
 salaries <- tibble(Categories = Categories, US = United_States, AL = Alabama, AK = Alaska, AZ = Arizona, AR = Arkansas, CA = California, CO = Colorado, CT = Connecticut, DE = Delaware, DC = District_of_Columbia, FL = Florida, GA = Georgia, HI = Hawaii, ID = Idaho, IL = Illinois, IN = Indiana, IA = Iowa, KS = Kansas, KY = Kentucky, LA = Louisiana, ME = Maine, MD = Maryland, MA = Massachusetts, MI = Michigan, MN = Minnesota, MS = Mississippi, MO = Missouri, MT = Montana, NE = Nebraska, NV = Nevada, NH = New_Hampshire, NJ = New_Jersey, NM = New_Mexico, NY = New_York, NC = North_Carolina, ND = North_Dakota, OH = Ohio, OK = Oklahoma, OR = Oregon, PA = Pennsylvania, RI = Rhode_Island, SC = South_Carolina, SD = South_Dakota, TN = Tennessee, TX = Texas, UT = Utah, VT = Vermont, VA = Virginia, WA = Washington, WV = West_Virginia, WI = Wisconsin, WY = Wyoming)
 salaries
-```
 
-Now that the data is all in one table, the data itself needs to be organized in a better way.  The gather() and spread() function will flip the table so that the States are all in one column and so that the categories are each sperate columns.
-```{r}
+
+## -----------------------------------------------------------------------------
 salaries <- gather(salaries, key = "State", value = "amount", -Categories)
 salaries <- spread(salaries, Categories, amount)
 salaries
 
 salaries <- sapply(salaries, gsub, pattern=',', replacement='')
 salaries <- as_tibble(salaries)
-```
 
 
-Now that we have the data from the website I am going to take the data from my education table in the previous section and use the data that gives the number of student that graduated by level and year.
-I want to join that data with the "percent change in salary" data from the new data.
-
-In order to do this I have to first create a seperate table to hold only the graduate numbers.  I am then going to sum those numbers up by state since the new data that was brought in is only categorized by state and not by county.
-```{r}
+## -----------------------------------------------------------------------------
 education_numbers <- tibble("FIPS_Code" = education_attainment$FIPS_Code, "State" = education_attainment$State, "1970_Less_Than_High_School_Diploma" = education_attainment$`1970_Less_Than_High_School_Diploma`, "1970_High_School_Diploma_Only" = education_attainment$`1970_High_School_Diploma_Only`, "1970_Some_College" = education_attainment$`1970_Some_College`, "1970_Bachelor_Degree_Or_Higher" = education_attainment$`1970_Bachelor_Degree_Or_Higher`, "1980_Less_Than_High_School_Diploma" = education_attainment$`1980_Less_Than_High_School_Diploma`, "1980_High_School_Diploma_Only" = education_attainment$`1980_High_School_Diploma_Only`, "1980_Some_College" = education_attainment$`1980_Some_College`, "1980_Bachelor_Degree_Or_Higher" = education_attainment$`1980_Bachelor_Degree_Or_Higher`, "1990_Less_Than_High_School_Diploma" = education_attainment$`1990_Less_Than_High_School_Diploma`, "1990_High_School_Diploma_Only" = education_attainment$`1990_High_School_Diploma_Only`, "1990_Some_College" = education_attainment$`1990_Some_College`, "1990_Bachelor_Degree_Or_Higher" = education_attainment$`1990_Bachelor_Degree_Or_Higher`, "2000_Less_Than_High_School_Diploma" = education_attainment$`2000_Less_Than_High_School_Diploma`, "2000_High_School_Diploma_Only" = education_attainment$`2000_High_School_Diploma_Only`, "2000_Some_College" = education_attainment$`2000_Some_College`, "2000_Bachelor_Degree_Or_Higher" = education_attainment$`2000_Bachelor_Degree_Or_Higher`, "2013-17_Less_Than_High_School_Diploma" = education_attainment$`2013-17_Less_Than_High_School_Diploma`, "2013-17_High_School_Diploma_Only" = education_attainment$`2013-17_High_School_Diploma_Only`, "2013-17_Some_College" = education_attainment$`2013-17_Some_College`, "2013-17_Bachelor_Degree_Or_Higher" = education_attainment$`2013-17_Bachelor_Degree_Or_Higher`)
 
 education_sum_numbers <- aggregate(cbind("1970_Less_Than_High_School_Diploma" = education_numbers$`1970_Less_Than_High_School_Diploma`, "1970_High_School_Diploma_Only" = education_numbers$`1970_High_School_Diploma_Only`, "1970_Some_College" = education_numbers$`1970_Some_College`, "1970_Bachelor_Degree_Or_Higher" = education_numbers$`1970_Bachelor_Degree_Or_Higher`, "1980_Less_Than_High_School_Diploma" = education_numbers$`1980_Less_Than_High_School_Diploma`,  "1980_High_School_Diploma_Only" = education_numbers$`1980_High_School_Diploma_Only`, "1980_Some_College" = education_numbers$`1980_Some_College`, "1980_Bachelor_Degree_Or_Higher" = education_numbers$`1980_Bachelor_Degree_Or_Higher`,  "1990_Less_Than_High_School_Diploma" = education_numbers$`1990_Less_Than_High_School_Diploma`,  "1990_High_School_Diploma_Only" = education_numbers$`1990_High_School_Diploma_Only`, "1990_Some_College" = education_numbers$`1990_Some_College`, "1990_Bachelor_Degree_Or_Higher" = education_numbers$`1990_Bachelor_Degree_Or_Higher`, "2000_Less_Than_High_School_Diploma" = education_numbers$`2000_Less_Than_High_School_Diploma`,  "2000_High_School_Diploma_Only" = education_numbers$`2000_High_School_Diploma_Only`, "2000_Some_College" = education_numbers$`2000_Some_College`, "2000_Bachelor_Degree_Or_Higher" = education_numbers$`2000_Bachelor_Degree_Or_Higher`, "2013-17_Less_Than_High_School_Diploma" = education_numbers$`2013-17_Less_Than_High_School_Diploma`, "2013-17_High_School_Diploma_Only" = education_numbers$`2013-17_High_School_Diploma_Only`, "2013-17_Some_College" = education_numbers$`2013-17_Some_College`, "2013-17_Bachelor_Degree_Or_Higher" = education_numbers$`2013-17_Bachelor_Degree_Or_Higher`), by=list(State=education_numbers$State), FUN=sum, na.rm=TRUE)
-```
 
 
-I will then use a join to bring together the two tables.
-```{r}
+## -----------------------------------------------------------------------------
 education_sum_numbers <- inner_join(salaries, education_sum_numbers, by = "State")
 education_sum_numbers
-```
 
-In order to create a model I need to make sure that all the data is being stored at the correct type.  I first am checking the type of each column in my new table and then I am going to convert all of the columns that are being stored as characters to be instead stored at numbers.
-```{r}
+
+## -----------------------------------------------------------------------------
 sapply(education_sum_numbers, typeof)
 
 education_sum_numbers$`Constant_2016-17_dollars:1969-70` <- as.double(education_sum_numbers$`Constant_2016-17_dollars:1969-70`)
@@ -146,11 +127,9 @@ education_sum_numbers$`Percent_change_1999-2000_to_2016-17` <- as.double(educati
 
 sapply(education_sum_numbers, typeof)
 sapply(education_sum_numbers, is.factor)
-```
 
 
-In this section I am going to create a model using the table that I created above to predict the Percent Change in Salary using the number of graduates data from deliverable1. I have created a graph to show the percent change by state to make the model understandable.  First the data needs to be split into a training set and a test set. After that, the train data can be used to train the model.
-```{r}
+## -----------------------------------------------------------------------------
 ggplot(education_sum_numbers, aes(State, `Percent_change_1999-2000_to_2016-17`)) + geom_point() +
   labs( x = "State", y = "Salary Percent Change", 
   title ="Salary Percent Change by State") + 
@@ -166,11 +145,9 @@ test <- education_sum_numbers[-sample_selection, ]
 train_model <- lm(train, formula =  `Percent_change_1999-2000_to_2016-17` ~ `1970_Less_Than_High_School_Diploma` + `1970_High_School_Diploma_Only` + `1970_Some_College` + `1970_Bachelor_Degree_Or_Higher` + `1980_Less_Than_High_School_Diploma` + `1980_High_School_Diploma_Only` + `1980_Some_College` + `1980_Bachelor_Degree_Or_Higher` + `1990_Less_Than_High_School_Diploma` + `1990_High_School_Diploma_Only` + `1990_Some_College` + `1990_Bachelor_Degree_Or_Higher` + `2000_Less_Than_High_School_Diploma` + `2000_High_School_Diploma_Only` + `2000_Some_College` + `2000_Bachelor_Degree_Or_Higher` + `2013-17_Less_Than_High_School_Diploma` + `2013-17_High_School_Diploma_Only` + `2013-17_Some_College`)
 
 summary(train_model)
-```
-From the results of the summary of the model we can see the the overall p-value of the model is 0.3614.  This p-value shows that the number of graduates data is not a very good predictor of the percent change in salary. The p-value is the probability that there is a correlation between the variables by chance.  Typically having a p-value of ~ 5% is ideal.  Therefore having the p value of 0.3614 shows that this is not the best model. This could show that the number of graduates data does not relate very well how teaching salaries have changed over time.
 
-Now I will use the test data to test the model.
-```{r}
+
+## -----------------------------------------------------------------------------
 prediction <- train_model %>% predict(test)
 
 R2(prediction, test$`Percent_change_1999-2000_to_2016-17`)
@@ -178,5 +155,4 @@ MAE(prediction, test$`Percent_change_1999-2000_to_2016-17`)
 RMSE(prediction, test$`Percent_change_1999-2000_to_2016-17`)
 
 ggplot(test, aes(x = prediction, y = `Percent_change_1999-2000_to_2016-17`)) + geom_point()
-```
 

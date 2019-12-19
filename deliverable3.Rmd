@@ -1,0 +1,89 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+This phase of the project is focused on reviewing and improving on the previous phases in the project.  In deliverable 2, I used teaching salaries data to create a model.  I specifically used the "percent change in salaries" data in my model.
+That model was not very successful, so in this deliverable I want to try to use some of the other data in the salaries dataset to try to create a better model.
+
+```{r, results='hide', message=FALSE}
+include <- function(library_name){
+  if( !(library_name %in% installed.packages()) )
+    install.packages(library_name) 
+  library(library_name, character.only=TRUE)
+}
+include("tidyverse")
+include("rvest")
+include("tidyr")
+include("knitr")
+#purl("deliverable1.Rmd", output = "part1.r")
+source("part1.r")
+purl("deliverable2.Rmd", output = "part2.r")
+source("part2.r")
+```
+
+For reference, here is a print out of the data that we are working with. I have the education_numbers data which has the number of graduates at each level for each year chunk by state.  I then have the salaries data that has the salary by state for each year chunk.
+
+```{r}
+print(education_numbers)
+print(salaries)
+```
+
+For this model I am going to use the salary information and the number of graduates information.  I am going to create a model using the salary data using the time period's current dollar and then also using the constant 2016-17 dollar.
+I want to see if one works better than the other since one model will account for inflation and the other will not account for any inflation.
+For this model I am going to try to predict the number of high school graduates for 2013-2017.  I am choosing to use only the data for high school diploma and below a high school diploma since teaching salaries are more related to the high school data than college data.
+In order to get this model to work, I had to some changes to deliverable 2 since some of the data was being stored as a factor instead of being stored as a double.  I had to simply change the types of those variables in deliverable 2.
+
+```{r}
+library(caret)
+set.seed(125)
+train.control <- trainControl(method = "cv", number = 10)
+
+sample_selection <- createDataPartition(education_sum_numbers$`2013-17_High_School_Diploma_Only`, p = 0.75, list = FALSE)
+train <- education_sum_numbers[sample_selection, ]
+test <- education_sum_numbers[-sample_selection, ]
+
+train_model_current_dollars <- train(`2013-17_High_School_Diploma_Only` ~ `1970_Less_Than_High_School_Diploma` + `1970_High_School_Diploma_Only` + `1980_Less_Than_High_School_Diploma` + `1980_High_School_Diploma_Only` + `1990_Less_Than_High_School_Diploma` + `1990_High_School_Diploma_Only` + `2000_Less_Than_High_School_Diploma` + `2000_High_School_Diploma_Only` + `2013-17_Less_Than_High_School_Diploma` + `Current_Dollars:1969-70` + `Current_Dollars:1979-80` + `Current_Dollars:1989-90` + `Current_Dollars:1999-2000` + `Current_Dollars:2009-10` +	`Current_Dollars:2015-16` +	`Current_Dollars:2016-17`, data = train, method = "lm", trControl = train.control)
+
+summary(train_model_current_dollars)
+
+prediction_current_dollars <- train_model_current_dollars %>% predict(test)
+
+R2(prediction_current_dollars, test$`2013-17_High_School_Diploma_Only`)
+MAE(prediction_current_dollars, test$`2013-17_High_School_Diploma_Only`)
+RMSE(prediction_current_dollars, test$`2013-17_High_School_Diploma_Only`)
+
+ggplot(test, aes(x = prediction_current_dollars, y = `2013-17_High_School_Diploma_Only`)) + geom_point()  + scale_x_continuous(name="Prediction using Current Dollars", labels = scales::comma) + scale_y_continuous(name="Number of High School Graduates only 2013-2017", labels = scales::comma)
+```
+
+```{r} 
+library(caret)
+set.seed(125)
+sample_selection <- createDataPartition(education_sum_numbers$`2013-17_High_School_Diploma_Only`, p = 0.75, list = FALSE)
+train <- education_sum_numbers[sample_selection, ]
+test <- education_sum_numbers[-sample_selection, ]
+
+train_model_constant_dollars <- train(`2013-17_High_School_Diploma_Only` ~ `1970_Less_Than_High_School_Diploma` + `1970_High_School_Diploma_Only` + `1980_Less_Than_High_School_Diploma` + `1980_High_School_Diploma_Only` + `1990_Less_Than_High_School_Diploma` + `1990_High_School_Diploma_Only` + `2000_Less_Than_High_School_Diploma` + `2000_High_School_Diploma_Only` + `2013-17_Less_Than_High_School_Diploma` + `Constant_2016-17_dollars:1969-70` + `Constant_2016-17_dollars:1979-80` + `Constant_2016-17_dollars:1989-90` + `Constant_2016-17_dollars:1999-2000` + `Constant_2016-17_dollars:2009-10` +	`Constant_2016-17_dollars:2015-16` +	`Constant_2016-17_dollars:2016-17`, data = train, method = "lm", trControl = train.control)
+
+summary(train_model_constant_dollars)
+
+prediction_constant_dollars <- train_model_constant_dollars %>% predict(test)
+
+R2(prediction_constant_dollars, test$`2013-17_High_School_Diploma_Only`)
+MAE(prediction_constant_dollars, test$`2013-17_High_School_Diploma_Only`)
+RMSE(prediction_constant_dollars, test$`2013-17_High_School_Diploma_Only`)
+
+ggplot(test, aes(x = prediction_constant_dollars, y = `2013-17_High_School_Diploma_Only`)) + geom_point() + scale_x_continuous(name="Prediction using Constant Dollars", labels = scales::comma) + scale_y_continuous(name="Number of High School Graduates only 2013-2017", labels = scales::comma)
+```
+
+These two models have very similar results.  Both models have a very low overall p-value.  This shows that the models are good; however when you look at the p-value for the different coefficients, only 2013-17_Less_Than_High_School_Diploma, 2000_High_School_Diploma_Only, 2000_Less_Than_High_School_Diploma, and 1990_Less_Than_High_School_Diploma are the only coefficients with low p-values.
+What this shows is that although these are good models, it is mainly because of those coefficient which is not what I was trying to do with this model.  
+The reason that I included those variables in my models was because I wanted to include the data for both the change in salary as well as the data for the change in number of students at the different levels.  I thought that this would be necessary for the models.  I think that if I only included the salary data in these models and removed the number of students data, then the model would not have a very low overall p-value.
+For this model, I used the k-fold cross-validation technique which randomly splits the data set into k-subsets, it then reserves one subset and trains the model on all other subsets. From there it tests the model on the reserved subset and record the prediction error. It repeat this process until each of the k subsets has served as the test set. By doing this the model is able to compute the average of the k recorded errors.
+
+
+For this project, I do not think that I was able to find a great model for some of the initial research questions that I had.  I think that there is a correlation between teacher salaries and student achievement, however I do not think that it necessarily implies that there is any causation between the two variables. The first step in operationalizing this project would be to get more data and create more models.  I think that the topic of education is particularly difficult because it is difficult to find education data.
+Once more data has been found and used to create models, then I think more direct action could be taken. I do think that when taking any action regarding education, especially through government policy, you would have to be very careful of the negative consequenses. 
+For example, if you were to take from the models that I have and decide that in order to increase educational attainment you need to increase the teachers salaries.  You would have to consider both the negative and positive consequenses of trying to create a government policy to increase teaching salaries. There could be negative consequenses because you would have to find somewhere to get more money to pay the teacher, and if this money came from taxes you can expect there to be negative responses. On the other hand, if you raised teacher's salaries, then perhaps more people would be interested in pursuing teaching as a career and you would have more/better teacher.
+The models that I have created do not justify taking any of the actions that I talked about above, but I do think that it would be important to keep some of the potential issues from this project in mind.
